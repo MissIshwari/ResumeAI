@@ -8,7 +8,7 @@ RUN npm install --force
 RUN npm run build
 
 FROM nginx:alpine
-COPY --from=rm-frontend /app/build /usr/share/nginx/html
+COPY --from=rm-frontend /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 
