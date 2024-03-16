@@ -1,16 +1,23 @@
-FROM node:18 as rm-frontend
+FROM node:20 AS build
 
 WORKDIR /app
 
 COPY . .
 
+# install dependency 
+
+RUN npm -g install @angular/cli
+RUN npm i -g angular-http-server
 RUN npm install --force
+
+# create a dist folder
 RUN npm run build
 
+#deployment
 FROM nginx:alpine
-COPY --from=rm-frontend /app/dist /usr/share/nginx/html
+
+COPY --from=build /app/dist/resumebuilder /usr/share/nginx/html
 
 EXPOSE 80
 
-CMD ["nginx","-g","daemon off;"]
-
+CMD [ "nginx" ,"-g", "daemon off;"]
