@@ -1,15 +1,22 @@
-FROM node:18 as rm-backend
+# Select Base Image
+FROM node:18
 
+#Set up the working directory
 WORKDIR /app
 
+# Copy all of the files
 COPY . .
 
-RUN npm install --force
-RUN npm run build
+# Install dependencies
+RUN npm install
+RUN npm install -g typescript
 
-FROM nginx:alpine
-COPY --from=rm-backend /app/dist /usr/share/nginx/html
+# build dist
+RUN tsc --build
 
-EXPOSE 80
 
-CMD ["nginx","-g","daemon off;"]
+# Expose port to connect to the container
+EXPOSE 3000
+
+# Run the node command to start backend
+CMD [ "npm","run", "start" ]
