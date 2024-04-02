@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+
+  backend:
+
+    build:
+
+      context: ./ResumeBuilderBackend
+
+      dockerfile: Dockerfile
+
+    ports:
+
+    - "4292:4292"
+
+    depends_on:
+
+      - mongo
+
+  frontend:
+
+    build:
+
+      context: ./ResumeBuilderAngular
+
+      dockerfile: Dockerfile
+
+    ports:
+
+    - "80:80"
+
+    depends_on:
+
+      - backend
+
+
+
+
